@@ -89,7 +89,10 @@ func WithClock(clock clock.Clock) Option {
 	}
 }
 
-var _ workflow.RecordStore = (*Store)(nil)
+var (
+	_ workflow.RecordStore   = (*Store)(nil)
+	_ workflow.RecordHistory = (*Store)(nil)
+)
 
 type Store struct {
 	mu          sync.Mutex
@@ -156,8 +159,10 @@ func (s *Store) Store(ctx context.Context, record *workflow.Record) error {
 		CreatedAt:    s.clock.Now(),
 	})
 
+	// Keep a copy so that callers reusing the record for their next update do not change this version.
+	snapshot := *record
 	skey := snapShotKey(record.WorkflowName, record.ForeignID, record.RunID)
-	s.snapshots[skey] = append(s.snapshots[skey], record)
+	s.snapshots[skey] = append(s.snapshots[skey], &snapshot)
 
 	return nil
 }
@@ -339,6 +344,38 @@ func (s *Store) Snapshots(workflowName, foreignID, runID string) []*workflow.Rec
 
 	key := snapShotKey(workflowName, foreignID, runID)
 	return s.snapshots[key]
+}
+
+// ListHistory returns every version of the Run that has been stored, oldest first. See workflow.RecordHistory.
+func (s *Store) ListHistory(ctx context.Context, runID string) ([]workflow.Record, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	record, ok := s.store[runID]
+	if !ok {
+		return nil, workflow.ErrRecordNotFound
+	}
+
+	snapshots := s.snapshots[snapShotKey(record.WorkflowName, record.ForeignID, record.RunID)]
+	history := make([]workflow.Record, len(snapshots))
+	for i, snapshot := range snapshots {
+		history[i] = *snapshot
+	}
+
+	// Versions before the latest data deletion must not return the deleted data.
+	for i := len(history) - 1; i >= 0; i-- {
+		if history[i].RunState != workflow.RunStateDataDeleted {
+			continue
+		}
+
+		for j := range i {
+			history[j].Object = history[i].Object
+		}
+
+		break
+	}
+
+	return history, nil
 }
 
 func (s *Store) SetSnapshotOffset(workflowName, foreignID, runID string, offset int) {

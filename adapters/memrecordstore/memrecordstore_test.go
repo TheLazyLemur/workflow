@@ -22,6 +22,12 @@ func TestStore(t *testing.T) {
 	})
 }
 
+func TestRecordHistory(t *testing.T) {
+	adaptertest.RunRecordHistoryTest(t, func() workflow.RecordStore {
+		return memrecordstore.New()
+	})
+}
+
 type status int
 
 const (

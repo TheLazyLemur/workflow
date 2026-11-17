@@ -108,6 +108,18 @@ store := sqlstore.New(db, db, "workflow_records", "workflow_outbox")
 store := memrecordstore.New()
 ```
 
+**Optional: RecordHistory**
+
+A RecordStore keeps only the latest version of each run. A store can also keep every version by implementing `RecordHistory`:
+
+```go
+type RecordHistory interface {
+    ListHistory(ctx context.Context, runID string) ([]Record, error)
+}
+```
+
+`ListHistory` returns every stored version of a run, oldest first. Once a run's data is deleted, earlier versions must not return the deleted data. `memrecordstore` implements it; test your own implementation with `adaptertest.RunRecordHistoryTest`.
+
 ### RoleScheduler
 
 **Purpose**: Coordinate distributed execution ensuring only one instance of each role runs at a time.

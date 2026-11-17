@@ -30,6 +30,15 @@ type RecordStore interface {
 	DeleteOutboxEvent(ctx context.Context, id string) error
 }
 
+// RecordHistory is an optional interface that a RecordStore can implement when it keeps every version of a Run that
+// it stores and not only the latest. Implementations should be tested with adaptertest.RunRecordHistoryTest.
+type RecordHistory interface {
+	// ListHistory returns every version of the Run with the provided run ID that has been stored, oldest first.
+	// ErrRecordNotFound is returned when no Run exists for the run ID. Once a version with RunStateDataDeleted has
+	// been stored, the versions before it must carry its Object so that deleted data is not kept in the history.
+	ListHistory(ctx context.Context, runID string) ([]Record, error)
+}
+
 type TestingRecordStore interface {
 	RecordStore
 
