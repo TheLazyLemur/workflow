@@ -35,6 +35,10 @@ type GraphStatus struct {
 type GraphTransition struct {
 	From int
 	To   int
+
+	// Step is the name, given with WithName, of the step that consumes From and can move a Run to To. It is empty
+	// when there is no such step or it has no name.
+	Step string
 }
 
 // Graph returns the statuses of the workflow and the transitions between them.
@@ -52,9 +56,16 @@ func (w *Workflow[Type, Status]) Graph() Graph {
 	}
 
 	for _, transition := range info.Transitions {
+		var step string
+		consumer, ok := w.consumers[Status(transition.From)]
+		if ok && slices.Contains(consumer.destinations, Status(transition.To)) {
+			step = consumer.name
+		}
+
 		g.Transitions = append(g.Transitions, GraphTransition{
 			From: transition.From,
 			To:   transition.To,
+			Step: step,
 		})
 	}
 

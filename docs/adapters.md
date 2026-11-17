@@ -481,7 +481,7 @@ http.HandleFunc("/api/steps", webui.StepsHandlerFunc(recordStore))
 http.HandleFunc("/api/timeline", webui.TimelineHandlerFunc(recordStore, nil))
 ```
 
-The graph highlights the statuses the run has been in when the RecordStore implements `workflow.RecordHistory`, and only its current status otherwise.
+The graph highlights the statuses the run has been in when the RecordStore implements `workflow.RecordHistory`, and only its current status otherwise. Steps named with `WithName` are labelled by their name in the graph and in the steps view.
 
 ### Logging Adapter
 

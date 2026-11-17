@@ -77,6 +77,14 @@ func validateOrder(ctx context.Context, r *workflow.Run[Order, OrderStatus]) (Or
 }
 ```
 
+### Naming Steps
+
+A step can be given a name with `WithName`. The name is only used to describe the workflow, such as in `Workflow.Graph` and the web UI, and does not change how the step runs:
+
+```go
+b.AddStep(OrderCreated, validateOrder, OrderValidated, OrderRejected).WithName("validate order")
+```
+
 ## Data Manipulation
 
 Steps can modify the workflow object directly:

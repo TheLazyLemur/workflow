@@ -40,3 +40,26 @@ func TestGraph(t *testing.T) {
 	}
 	require.Equal(t, expected, wf.Graph())
 }
+
+func TestGraphStepNames(t *testing.T) {
+	b := workflow.NewBuilder[string, status]("example")
+	b.AddStep(StatusStart, func(ctx context.Context, r *workflow.Run[string, status]) (status, error) {
+		return StatusMiddle, nil
+	}, StatusMiddle, StatusEnd).WithName("check")
+	b.AddStep(StatusMiddle, func(ctx context.Context, r *workflow.Run[string, status]) (status, error) {
+		return StatusEnd, nil
+	}, StatusEnd)
+	b.AddCallback(StatusStart, func(ctx context.Context, r *workflow.Run[string, status], reader io.Reader) (status, error) {
+		return StatusInitiated, nil
+	}, StatusInitiated)
+
+	wf := b.Build(nil, nil, nil)
+
+	expected := []workflow.GraphTransition{
+		{From: int(StatusStart), To: int(StatusMiddle), Step: "check"},
+		{From: int(StatusStart), To: int(StatusEnd), Step: "check"},
+		{From: int(StatusStart), To: int(StatusInitiated)},
+		{From: int(StatusMiddle), To: int(StatusEnd)},
+	}
+	require.Equal(t, expected, wf.Graph().Transitions)
+}

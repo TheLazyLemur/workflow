@@ -1265,9 +1265,11 @@ async function opsPost(path, body) {
 }
 
 // Refetches when the run gets a new version.
+// An empty path fetches nothing.
 function useRunData(path, record) {
   const [state, setState] = _cSt({ data: null, error: null });
   _cEff(() => {
+    if (!path) return;
     let live = true;
     setState(s => ({ data: s.data, error: null }));
     opsPost(path, { run_id: record.run_id })
@@ -1288,7 +1290,7 @@ function namedGraph(d) {
   const name = v => d.statuses.find(s => s.value === v)?.description ?? String(v);
   return {
     statuses: d.statuses.map(s => ({ status: s.description, start: s.starting, terminal: s.terminal })),
-    transitions: d.transitions.map(t => ({ from: name(t.from), to: name(t.to) })),
+    transitions: d.transitions.map(t => ({ from: name(t.from), to: name(t.to), via: t.step })),
     path: d.path.map(name),
     // Without the run's history only its current status is known, not where it started.
     partial: !d.path_from_history,
@@ -1313,7 +1315,8 @@ function mainLine(g) {
   const pi = g.path.length ? chain.indexOf(g.path[0]) : -1; // where this run's path starts on the main line
   const joinedAt = g.partial ? -1 : pi; // where this run started, when known
   const taken = new Set(g.path.slice(1).map((to, i) => g.path[i] + "→" + to));
-  const stepName = s => `step after ${s}`;
+  // A step is labelled by its name, or by the status it consumes when it has none.
+  const stepName = s => [...new Set((out[s] ?? []).map(t => t.via).filter(Boolean))].join(" / ") || `step after ${s}`;
   return { out, into, chain, pi, joinedAt, taken, stepName };
 }
 
@@ -1479,7 +1482,7 @@ function StateMachineView({ record, g }) {
         )}
         {edges.map((e, i) => (
           <g key={i} className={`tr ${e.on ? "on" : ""}`}>
-            <title>{`${e.t.from} → ${e.t.to}${e.on ? "" : ": possible; this run did not go this way"}`}</title>
+            <title>{`${e.t.from} → ${e.t.to}${e.t.via ? ` (${e.t.via})` : ""}${e.on ? "" : ": possible; this run did not go this way"}`}</title>
             <path d={e.d} markerEnd="url(#ops-arrow)" />
           </g>
         ))}
@@ -1582,17 +1585,24 @@ function StepDiff({ input, output }) {
   );
 }
 
-// Each version's object is shown against the one before it.
+// Each version's object is shown against the one before it, with the name of the step
+// that made the change when the graph is available and the step is named.
 function RunSteps({ record }) {
   const state = useRunData(OPS.steps, record);
+  const graph = useRunData(OPS.graph, record);
   if (!state.data) return <OpsStatus state={state} />;
   const items = state.data.items;
-  return items.map((s, i) => (
-    <section className="ops-step" key={s.version} aria-label={`Version ${s.version}, ${s.status}`}>
-      <h3>v{s.version} {s.status} <span className="meta">{s.run_state} · {opsTime(s.updated_at)}{i === 0 ? " · first version, no input" : ""}</span></h3>
-      <StepDiff input={i === 0 ? null : items[i - 1].object} output={s.object} />
-    </section>
-  ));
+  const transitions = graph.data ? namedGraph(graph.data).transitions : [];
+  const via = (from, to) => transitions.find(t => t.from === from && t.to === to && t.via)?.via;
+  return items.map((s, i) => {
+    const step = i > 0 && via(items[i - 1].status, s.status);
+    return (
+      <section className="ops-step" key={s.version} aria-label={`Version ${s.version}, ${s.status}`}>
+        <h3>v{s.version} {s.status} <span className="meta">{step ? `by ${step} · ` : ""}{s.run_state} · {opsTime(s.updated_at)}{i === 0 ? " · first version, no input" : ""}</span></h3>
+        <StepDiff input={i === 0 ? null : items[i - 1].object} output={s.object} />
+      </section>
+    );
+  });
 }
 
 /* ---- Drawer ---- */

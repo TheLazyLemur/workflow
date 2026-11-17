@@ -61,7 +61,8 @@ func (b *Builder[Type, Status]) AddStep(
 	}
 
 	p := consumerConfig[Type, Status]{
-		consumer: c,
+		consumer:     c,
+		destinations: allowedDestinations,
 	}
 
 	b.workflow.consumers[from] = p
@@ -92,6 +93,15 @@ func (s *stepUpdater[Type, Status]) WithOptions(opts ...Option) {
 	consumer.lagAlert = consumerOpts.lagAlert
 	consumer.pauseAfterErrCount = consumerOpts.pauseAfterErrCount
 	s.workflow.consumers[s.from] = consumer
+}
+
+// WithName names the step for display purposes, such as in Graph and the web UI. It does not change how the step
+// is run.
+func (s *stepUpdater[Type, Status]) WithName(name string) *stepUpdater[Type, Status] {
+	consumer := s.workflow.consumers[s.from]
+	consumer.name = name
+	s.workflow.consumers[s.from] = consumer
+	return s
 }
 
 func (b *Builder[Type, Status]) AddCallback(from Status, fn CallbackFunc[Type, Status], allowedDestinations ...Status) {

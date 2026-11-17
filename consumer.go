@@ -24,6 +24,10 @@ type consumerConfig[Type any, Status StatusType] struct {
 	lag                time.Duration
 	lagAlert           time.Duration
 	pauseAfterErrCount int
+
+	// name and destinations are only used to describe the step, such as in Graph.
+	name         string
+	destinations []Status
 }
 
 func consume(

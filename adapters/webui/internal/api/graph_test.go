@@ -20,7 +20,7 @@ var testGraphs = map[string]workflow.Graph{
 			{Value: 3, Description: "End", Terminal: true},
 		},
 		Transitions: []workflow.GraphTransition{
-			{From: 1, To: 2},
+			{From: 1, To: 2, Step: "check"},
 			{From: 2, To: 3},
 		},
 	},
@@ -33,7 +33,7 @@ var expectedGraphStatuses = []api.GraphStatus{
 }
 
 var expectedGraphTransitions = []api.GraphTransition{
-	{From: 1, To: 2},
+	{From: 1, To: 2, Step: "check"},
 	{From: 2, To: 3},
 }
 

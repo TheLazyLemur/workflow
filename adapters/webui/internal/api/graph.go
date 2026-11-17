@@ -25,8 +25,9 @@ type GraphStatus struct {
 }
 
 type GraphTransition struct {
-	From int `json:"from"`
-	To   int `json:"to"`
+	From int    `json:"from"`
+	To   int    `json:"to"`
+	Step string `json:"step,omitempty"`
 }
 
 // Graph serves the graph of the run's workflow from graphs, keyed by workflow name. listHistory is optional.
@@ -87,6 +88,7 @@ func Graph(lookup LookupFn, listHistory ListHistoryFn, graphs map[string]workflo
 			resp.Transitions = append(resp.Transitions, GraphTransition{
 				From: transition.From,
 				To:   transition.To,
+				Step: transition.Step,
 			})
 		}
 
