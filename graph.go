@@ -37,7 +37,8 @@ type GraphTransition struct {
 	To   int
 
 	// Step is the name, given with WithName, of the step that consumes From and can move a Run to To. It is empty
-	// when there is no such step or it has no name.
+	// when there is no such step, when it has no name, or when a callback or timeout can also make the same
+	// transition, because the graph cannot tell which of them made it.
 	Step string
 }
 
@@ -55,10 +56,19 @@ func (w *Workflow[Type, Status]) Graph() Graph {
 		})
 	}
 
+	// A step, callback and timeout that share a transition each add it to the status graph; list it once.
+	seen := make(map[[2]int]bool)
 	for _, transition := range info.Transitions {
+		key := [2]int{transition.From, transition.To}
+		if seen[key] {
+			continue
+		}
+		seen[key] = true
+
 		var step string
 		consumer, ok := w.consumers[Status(transition.From)]
-		if ok && slices.Contains(consumer.destinations, Status(transition.To)) {
+		if ok && slices.Contains(consumer.destinations, Status(transition.To)) &&
+			!w.callbackOrTimeoutMakes(Status(transition.From), Status(transition.To)) {
 			step = consumer.name
 		}
 
@@ -70,4 +80,19 @@ func (w *Workflow[Type, Status]) Graph() Graph {
 	}
 
 	return g
+}
+
+// callbackOrTimeoutMakes reports whether a callback or timeout can move a Run from one status to another.
+func (w *Workflow[Type, Status]) callbackOrTimeoutMakes(from, to Status) bool {
+	for _, c := range w.callback[from] {
+		if slices.Contains(c.destinations, to) {
+			return true
+		}
+	}
+	for _, t := range w.timeouts[from].transitions {
+		if slices.Contains(t.destinations, to) {
+			return true
+		}
+	}
+	return false
 }

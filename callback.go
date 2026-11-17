@@ -8,6 +8,9 @@ import (
 
 type callback[Type any, Status StatusType] struct {
 	CallbackFunc CallbackFunc[Type, Status]
+
+	// destinations is only used to describe the workflow, such as in Graph.
+	destinations []Status
 }
 
 type CallbackFunc[Type any, Status StatusType] func(ctx context.Context, r *Run[Type, Status], reader io.Reader) (Status, error)

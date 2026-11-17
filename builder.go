@@ -107,6 +107,7 @@ func (s *stepUpdater[Type, Status]) WithName(name string) *stepUpdater[Type, Sta
 func (b *Builder[Type, Status]) AddCallback(from Status, fn CallbackFunc[Type, Status], allowedDestinations ...Status) {
 	c := callback[Type, Status]{
 		CallbackFunc: fn,
+		destinations: allowedDestinations,
 	}
 
 	for _, to := range allowedDestinations {
@@ -125,8 +126,9 @@ func (b *Builder[Type, Status]) AddTimeout(
 	timeouts := b.workflow.timeouts[from]
 
 	t := timeout[Type, Status]{
-		TimerFunc:   timer,
-		TimeoutFunc: tf,
+		TimerFunc:    timer,
+		TimeoutFunc:  tf,
+		destinations: allowedDestinations,
 	}
 
 	for _, to := range allowedDestinations {

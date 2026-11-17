@@ -173,6 +173,9 @@ type timeouts[Type any, Status StatusType] struct {
 type timeout[Type any, Status StatusType] struct {
 	TimerFunc   TimerFunc[Type, Status]
 	TimeoutFunc TimeoutFunc[Type, Status]
+
+	// destinations is only used to describe the workflow, such as in Graph.
+	destinations []Status
 }
 
 func timeoutPoller[Type any, Status StatusType](
