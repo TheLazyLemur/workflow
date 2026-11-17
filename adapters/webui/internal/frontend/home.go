@@ -24,4 +24,12 @@ type Paths struct {
 	List       string
 	Update     string
 	ObjectData string
+
+	// Graph is the path of the handler returned by GraphHandlerFunc. The run's graph is only shown when it is set.
+	Graph string
+	// Steps is the path of the handler returned by StepsHandlerFunc. The run's steps are only shown when it is set.
+	Steps string
+	// Timeline is the path of the handler returned by TimelineHandlerFunc. When it is not set the run's timeline is
+	// drawn from its current run state only.
+	Timeline string
 }

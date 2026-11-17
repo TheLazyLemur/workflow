@@ -519,6 +519,58 @@ body:not(.theme-dark) .brand-logo-dark { display: none; }
 .chart-tab.active { background: var(--md-surface); color: var(--md-on-surface); box-shadow: var(--md-elev-1); }
 .chart-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .chart-title { font-size: 14px; font-weight: 700; letter-spacing: -0.005em; }
+
+
+/* RUN GRAPH, TIMELINE AND STEPS */
+.ops-flow { width: 100%; height: auto; display: block; }
+.ops-flow .shape rect, .ops-flow .shape polygon { fill: var(--md-surface-container); stroke: var(--md-outline-variant); stroke-width: 1.5; }
+.ops-flow .shape text { fill: var(--md-on-surface-variant); font-size: 12px; font-weight: 500; }
+.ops-flow .shape text.sub { font-size: 9.5px; font-weight: 400; font-style: italic; }
+.ops-flow .shape.on rect, .ops-flow .shape.on polygon { fill: var(--md-primary-container); stroke: var(--md-primary); stroke-width: 2; }
+.ops-flow .shape.on text { fill: var(--md-on-primary-container); font-weight: 600; }
+.ops-flow .shape.current rect, .ops-flow .shape.current polygon { stroke-width: 3.5; }
+.ops-flow .shape text.here { fill: var(--md-primary); font-weight: 700; font-style: normal; font-size: 11px; }
+.ops-flow .shape.off { opacity: 0.45; }
+.ops-flow .shape.start rect { fill: var(--md-surface-container-high); }
+.ops-flow .arrow path { fill: none; stroke: var(--md-outline-variant); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.ops-flow .arrow text { fill: var(--md-on-surface-variant); font-size: 10px; font-family: 'Google Sans Code', monospace; }
+.ops-flow .arrow.off { opacity: 0.5; }
+.ops-flow .arrow.on path { stroke: var(--md-primary); stroke-width: 2.5; stroke-dasharray: none; }
+.ops-flow .arrow.on text { fill: var(--md-primary); font-weight: 600; }
+.ops-flow .arrow text.joined { fill: var(--md-primary); font-family: inherit; font-weight: 700; }
+.ops-flow marker path { fill: var(--md-outline); }
+.ops-sm { width: 100%; height: auto; display: block; }
+.ops-sm .state rect { fill: var(--md-surface-container); stroke: var(--md-outline); stroke-width: 1.5; }
+.ops-sm .state rect.inner { fill: none; }
+.ops-sm .state.on rect { fill: var(--md-primary-container); stroke: var(--md-primary); stroke-width: 2; }
+.ops-sm .state.on rect.inner { fill: none; stroke-width: 1.5; }
+.ops-sm .state.current rect:first-of-type { stroke-width: 3.5; }
+.ops-sm .state.off { opacity: 0.45; }
+.ops-sm .state text.name { fill: var(--md-on-surface); font-size: 13px; font-weight: 600; font-family: 'Google Sans Code', monospace; }
+.ops-sm .state.on text.name { fill: var(--md-on-primary-container); }
+.ops-sm .state text.does { fill: var(--md-on-surface-variant); font-size: 11.5px; }
+.ops-sm .state.on text.does { fill: var(--md-on-primary-container); }
+.ops-sm .state text.here { fill: var(--md-primary); font-size: 11px; font-weight: 700; }
+.ops-sm .tr path { fill: none; stroke: var(--md-outline-variant); stroke-width: 1.5; stroke-dasharray: 4 4; opacity: 0.6; }
+.ops-sm .tr.on path { stroke: var(--md-primary); stroke-width: 2.5; stroke-dasharray: none; opacity: 1; }
+.ops-sm .tr circle.initial { fill: var(--md-outline); }
+.ops-sm .tr.on circle.initial { fill: var(--md-primary); }
+.ops-sm .tr text { fill: var(--md-on-surface-variant); font-size: 11px; }
+.ops-sm .tr.on text { fill: var(--md-primary); font-weight: 600; }
+.ops-sm marker path { fill: var(--md-outline); }
+.ops-view-toggle { display: inline-flex; gap: 2px; padding: 3px; margin-bottom: 14px; border-radius: var(--r-full); background: var(--md-surface-container); }
+.ops-view-toggle button { border: 0; background: transparent; color: var(--md-on-surface-variant); font: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: var(--r-full); cursor: pointer; }
+.ops-view-toggle button[aria-pressed="true"] { background: var(--md-primary); color: var(--md-on-primary); }
+.ops-path { font-family: 'Google Sans Code', monospace; font-size: 12px; color: var(--md-on-surface-variant); margin-top: 12px; line-height: 1.6; }
+.ops-step { border: 1px solid var(--md-outline-variant); border-radius: var(--r-md); margin-bottom: 12px; overflow: hidden; }
+.ops-step > h3 { margin: 0; padding: 10px 12px; font-size: 13px; background: var(--md-surface-container); display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.ops-step > h3 .meta { font-weight: 400; font-size: 11px; color: var(--md-on-surface-variant); font-family: 'Google Sans Code', monospace; }
+.ops-diff { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 11px; table-layout: fixed; }
+.ops-diff th, .ops-diff td { text-align: left; vertical-align: top; padding: 4px 8px; border-top: 1px solid var(--md-outline-variant); word-break: break-word; white-space: pre-wrap; }
+.ops-diff th { font-weight: 600; color: var(--md-on-surface-variant); font-family: 'Plus Jakarta Sans', sans-serif; }
+.ops-diff tr.changed td { background: color-mix(in oklch, var(--md-warning-container) 45%, transparent); }
+.ops-tag { display: inline-block; padding: 2px 8px; border-radius: var(--r-full); font-size: 11px; font-weight: 600; }
+.ops-tag.changed { background: var(--md-warning-container); color: var(--md-on-warning-container); }
 </style>
 </head>
 <body class="theme-dark seed-indigo density-comfortable">
@@ -530,7 +582,11 @@ body:not(.theme-dark) .brand-logo-dark { display: none; }
 window.__API_PATHS = {
   list:       "[[.List]]",
   update:     "[[.Update]]",
-  objectData: "[[.ObjectData]]"
+  objectData: "[[.ObjectData]]",
+  // Optional paths: "" hides the matching drawer tab.
+  graph:      "[[.Graph]]",
+  steps:      "[[.Steps]]",
+  timeline:   "[[.Timeline]]"
 };
 </script>
 
@@ -1197,6 +1253,348 @@ function JsonViewer({ data }) {
   );
 }
 
+/* ---- Run graph, timeline and steps: each is shown only when its path is set ---- */
+const OPS = window.__API_PATHS || {};
+const ENDED_RUN_STATES = ["Completed", "Cancelled", "Data Deleted", "Requested Data Deleted"];
+
+async function opsPost(path, body) {
+  const resp = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  if (!resp.ok) throw new Error(`${path} failed: ${resp.status} ${(await resp.text()).trim()}`);
+  const text = await resp.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// Refetches when the run gets a new version.
+function useRunData(path, record) {
+  const [state, setState] = _cSt({ data: null, error: null });
+  _cEff(() => {
+    let live = true;
+    setState(s => ({ data: s.data, error: null }));
+    opsPost(path, { run_id: record.run_id })
+      .then(data => live && setState({ data, error: null }))
+      .catch(e => live && setState({ data: null, error: e.message }));
+    return () => { live = false; };
+  }, [path, record.run_id, record.version]);
+  return state;
+}
+
+function OpsStatus({ state }) {
+  if (state.error) return <div role="alert" style={{ color: "var(--md-error)", fontSize: 13 }}>{state.error}</div>;
+  return <div style={{ color: "var(--md-on-surface-variant)", fontSize: 13 }}>Loading…</div>;
+}
+
+// The graph endpoint identifies statuses by value; the views below work with their descriptions.
+function namedGraph(d) {
+  const name = v => d.statuses.find(s => s.value === v)?.description ?? String(v);
+  return {
+    statuses: d.statuses.map(s => ({ status: s.description, start: s.starting, terminal: s.terminal })),
+    transitions: d.transitions.map(t => ({ from: name(t.from), to: name(t.to) })),
+    path: d.path.map(name),
+    // Without the run's history only its current status is known, not where it started.
+    partial: !d.path_from_history,
+  };
+}
+
+function pathCaption(g) {
+  if (g.partial) return `This run is at ${g.path[0]}. Its earlier statuses are not shown because the record store does not keep history.`;
+  return `This run: ${g.path.join(" → ") || "none"}`;
+}
+
+// The main line both views draw down the middle: this run's path, the route that leads
+// into it (so a run started part-way, e.g. by a callback, still shows where it joined),
+// and past where it is now each status's first destination.
+function mainLine(g) {
+  const out = {}, into = {};
+  for (const t of g.transitions) { (out[t.from] ||= []).push(t); (into[t.to] ||= []).push(t); }
+  const chain = g.path.length ? [...g.path] : [g.statuses.find(s => s.start)?.status ?? g.statuses[0].status];
+  const seen = new Set(chain);
+  for (let first = chain[0]; into[first] && !seen.has(into[first][0].from); first = chain[0]) { chain.unshift(into[first][0].from); seen.add(chain[0]); }
+  for (let last = chain[chain.length - 1]; out[last] && !seen.has(out[last][0].to); last = chain[chain.length - 1]) { chain.push(out[last][0].to); seen.add(chain[chain.length - 1]); }
+  const pi = g.path.length ? chain.indexOf(g.path[0]) : -1; // where this run's path starts on the main line
+  const joinedAt = g.partial ? -1 : pi; // where this run started, when known
+  const taken = new Set(g.path.slice(1).map((to, i) => g.path[i] + "→" + to));
+  const stepName = s => `step after ${s}`;
+  return { out, into, chain, pi, joinedAt, taken, stepName };
+}
+
+// A flowchart of the workflow, read top to bottom: the work is in boxes (a step that can
+// lead to more than one status is a decision diamond), arrows are labelled with the
+// status a run lands in, and an end status (no step after it) is a rounded terminal.
+// The main line follows this run's path; every other exit leaves its step to the right.
+function flowchart(g) {
+  const { out, chain, pi, joinedAt, taken, stepName } = mainLine(g);
+  const inPath = i => pi >= 0 && i >= pi && i < pi + g.path.length;
+  const X = 130, BOX = [200, 40], DIA = [190, 70], TERM = [200, 40], START = [110, 32], GAP = 52, EXIT_GAP = 12, BRANCH = 100;
+  const SIDE = X + DIA[0] / 2 + BRANCH + TERM[0] / 2;
+  const items = [], arrows = [];
+  const start = { kind: "start", x: X, y: 18 + START[1] / 2, w: START[0], h: START[1], label: "start", on: joinedAt === 0 };
+  items.push(start);
+  let prev = start, bottom = start.y + start.h / 2;
+  for (let i = 0; i < chain.length; i++) {
+    const s = chain[i];
+    const on = inPath(i);
+    const current = pi >= 0 && i === pi + g.path.length - 1;
+    const arrived = i === 0 ? joinedAt === 0 : taken.has(chain[i - 1] + "→" + s);
+    const joined = i === joinedAt && joinedAt > 0; // this run started here, part-way down the line
+    if (!out[s]) { // an end status: the run completes
+      const t = { kind: "end", x: X, y: bottom + GAP + TERM[1] / 2, w: TERM[0], h: TERM[1], label: s, on, current };
+      items.push(t); arrows.push({ from: prev, to: t, label: s, on: arrived, joined });
+      bottom = t.y + t.h / 2;
+      break;
+    }
+    const decision = out[s].length > 1;
+    const [w, h] = decision ? DIA : BOX;
+    const n = { kind: decision ? "decision" : "step", x: X, y: bottom + GAP + h / 2, w, h, label: stepName(s), on: on && !current, current };
+    items.push(n); arrows.push({ from: prev, to: n, label: s, on: arrived, joined });
+    bottom = n.y + h / 2;
+    out[s].filter(t => t.to !== chain[i + 1]).forEach((t, k) => {
+      const e = { kind: out[t.to] ? "elsewhere" : "end", x: SIDE, y: n.y + k * (TERM[1] + EXIT_GAP), w: TERM[0], h: TERM[1], label: t.to, on: taken.has(t.from + "→" + t.to) };
+      items.push(e); arrows.push({ from: n, to: e, label: t.to, on: e.on, sideways: true });
+      bottom = Math.max(bottom, e.y + e.h / 2);
+    });
+    prev = n;
+  }
+  return { items, arrows, width: SIDE + TERM[0] / 2 + 12, height: bottom + 40 };
+}
+
+// Down the main line; sideways out of a step's right edge, turning down for a second exit.
+function arrowPath(a) {
+  const f = a.from, t = a.to;
+  if (!a.sideways) return { d: `M${f.x},${f.y + f.h / 2} L${t.x},${t.y - t.h / 2 - 3}`, lx: f.x + 10, ly: (f.y + f.h / 2 + t.y - t.h / 2) / 2 + 4, anchor: "start" };
+  const x0 = f.x + f.w / 2, x1 = x0 + 22, x2 = t.x - t.w / 2 - 3;
+  const d = t.y === f.y ? `M${x0},${f.y} L${x2},${t.y}` : `M${x0},${f.y} L${x1},${f.y} L${x1},${t.y} L${x2},${t.y}`;
+  return { d, lx: (x1 + x2) / 2 + 4, ly: t.y - 6, anchor: "middle" };
+}
+
+function FlowShape({ it }) {
+  const { x, y, w, h } = it;
+  if (it.kind === "decision") return <polygon points={`${x},${y - h / 2} ${x + w / 2},${y} ${x},${y + h / 2} ${x - w / 2},${y}`} />;
+  const r = it.kind === "step" ? 6 : h / 2;
+  return <rect x={x - w / 2} y={y - h / 2} width={w} height={h} rx={r} />;
+}
+
+function FlowchartView({ record, g }) {
+  const { items, arrows, width, height } = flowchart(g);
+  const ended = ENDED_RUN_STATES.includes(record.run_state);
+  return (
+    <figure style={{ margin: 0 }}>
+      <svg className="ops-flow" viewBox={`0 0 ${width} ${height}`} style={{ maxWidth: width }} role="img" aria-labelledby="ops-graph-title">
+        <title id="ops-graph-title">{`${record.workflow_name} flowchart. ${pathCaption(g)}`}</title>
+        <defs>
+          <marker id="ops-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" />
+          </marker>
+        </defs>
+        {arrows.map((a, i) => {
+          const { d, lx, ly, anchor } = arrowPath(a);
+          return (
+            <g key={i} className={`arrow ${a.on ? "on" : "off"}`}>
+              <path d={d} markerEnd="url(#ops-arrow)" />
+              <text x={lx} y={ly} textAnchor={anchor}>{a.label}</text>
+              {a.joined && <text className="joined" x={lx} y={ly + 13} textAnchor={anchor}>▶ this run started here</text>}
+            </g>
+          );
+        })}
+        {items.map((it, i) => (
+          <g key={i} className={`shape ${it.kind} ${it.on ? "on" : "off"} ${it.current ? "current" : ""}`}>
+            <FlowShape it={it} />
+            <text x={it.x} y={it.y + (it.kind === "end" || it.kind === "elsewhere" ? -2 : 4)} textAnchor="middle">{it.label}</text>
+            {it.kind === "end" && <text className="sub" x={it.x} y={it.y + 12} textAnchor="middle">end: the run completes</text>}
+            {it.kind === "elsewhere" && <text className="sub" x={it.x} y={it.y + 12} textAnchor="middle">continues from there</text>}
+            {it.current && <text className="here" x={it.x} y={it.y + it.h / 2 + 15} textAnchor="middle">{ended ? "▲ this run ended here" : "▲ this run is here"}</text>}
+          </g>
+        ))}
+      </svg>
+      <figcaption className="ops-path">{pathCaption(g)}</figcaption>
+    </figure>
+  );
+}
+
+// A statechart: each status is a box, and the step that runs while a run is in it is
+// written inside ("runs: step after Created"). Arrows go to the statuses that step can
+// move the run to. An end status has a double border: no step runs there and the run
+// completes.
+function statechart(g) {
+  const { out, chain, pi, joinedAt, taken, stepName } = mainLine(g);
+  const onPath = new Set(g.path);
+  // Each column is as wide as its longest line: the name (13px monospace) or what runs there (11.5px).
+  const fit = ss => Math.max(150, ...ss.map(s => Math.max(s.length * 7.9, ((out[s] ? "runs: " + stepName(s) : "final · the run completes").length) * 6.2)) ) + 24;
+  const restOf = g.statuses.map(s => s.status).filter(s => !chain.includes(s));
+  const W = fit(chain), WR = fit(restOf.length ? restOf : ["x"]);
+  const H = 52, GAP = 40, TOP = 52, LEFT = 30;
+  const X = LEFT + W / 2, RX = X + W / 2 + 54 + WR / 2;
+  const box = {};
+  chain.forEach((s, i) => { box[s] = { x: X, top: TOP + i * (H + GAP), row: i, w: W }; });
+  const anchor = s => Math.max(-1, ...g.transitions.filter(t => t.to === s && box[t.from]?.x === X).map(t => box[t.from].row));
+  let free = 0;
+  restOf.map((s, i) => ({ s, a: anchor(s), i })).sort((p, q) => p.a - q.a || p.i - q.i).forEach(({ s, a }) => {
+    const top = Math.max(TOP + Math.max(a, 0) * (H + GAP), free);
+    box[s] = { x: RX, top, row: -1, w: WR };
+    free = top + H + 14;
+  });
+  let lane = 0;
+  const edges = g.transitions.map(t => {
+    const f = box[t.from], to = box[t.to];
+    const on = taken.has(t.from + "→" + t.to);
+    if (f.x === X && to.x === X && to.row === f.row + 1) return { t, on, d: `M${X},${f.top + H} L${X},${to.top - 3}` };
+    const y0 = f.top + H / 2, y2 = to.top + H / 2;
+    if (f.x === X && to.x === RX) {
+      const x0 = X + W / 2, x2 = RX - WR / 2 - 3;
+      if (y0 === y2) return { t, on, d: `M${x0},${y0} L${x2},${y2}` };
+      const xl = x0 + 18 + (lane++ % 4) * 8;
+      return { t, on, d: `M${x0},${y0} L${xl},${y0} L${xl},${y2} L${x2},${y2}` };
+    }
+    const xl = RX + WR / 2 + 18 + (lane++ % 4) * 8, x0 = f.x + f.w / 2, x2 = to.x + to.w / 2 + 3;
+    return { t, on, d: `M${x0},${y0} L${xl},${y0} L${xl},${y2} L${x2},${y2}`, back: true };
+  });
+  const height = Math.max(...Object.values(box).map(b => b.top + H)) + 30;
+  return { box, edges, chain, joinedAt, out, stepName, onPath, W, H, X, TOP, width: RX + WR / 2 + (edges.some(e => e.back) ? 54 : 8), height };
+}
+
+function StateMachineView({ record, g }) {
+  const { box, edges, chain, joinedAt, out, stepName, onPath, W, H, X, width, height } = statechart(g);
+  const current = g.path[g.path.length - 1];
+  const ended = ENDED_RUN_STATES.includes(record.run_state);
+  const first = box[chain[0]];
+  return (
+    <figure style={{ margin: 0 }}>
+      <svg className="ops-sm" viewBox={`0 0 ${width} ${height}`} style={{ maxWidth: width }} role="img" aria-labelledby="ops-graph-title">
+        <title id="ops-graph-title">{`${record.workflow_name} state machine. ${pathCaption(g)}`}</title>
+        <defs>
+          <marker id="ops-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" />
+          </marker>
+        </defs>
+        <g className={`tr ${joinedAt === 0 ? "on" : ""}`}>
+          <circle className="initial" cx={X} cy={14} r={6} />
+          <path d={`M${X},${20} L${X},${first.top - 3}`} markerEnd="url(#ops-arrow)" />
+          <text x={X + 10} y={18}>start</text>
+        </g>
+        {joinedAt > 0 && (
+          <g className="tr on">
+            <circle className="initial" cx={8} cy={box[chain[joinedAt]].top + H / 2} r={5} />
+            <path d={`M${13},${box[chain[joinedAt]].top + H / 2} L${X - W / 2 - 3},${box[chain[joinedAt]].top + H / 2}`} markerEnd="url(#ops-arrow)" />
+            <text x={X - W / 2} y={box[chain[joinedAt]].top - 6}>▶ this run started here</text>
+          </g>
+        )}
+        {edges.map((e, i) => (
+          <g key={i} className={`tr ${e.on ? "on" : ""}`}>
+            <title>{`${e.t.from} → ${e.t.to}${e.on ? "" : ": possible; this run did not go this way"}`}</title>
+            <path d={e.d} markerEnd="url(#ops-arrow)" />
+          </g>
+        ))}
+        {g.statuses.map(st => {
+          const s = st.status, b = box[s];
+          const end = !out[s];
+          return (
+            <g key={s} className={`state ${onPath.has(s) ? "on" : "off"} ${s === current ? "current" : ""} ${end ? "end" : ""}`}>
+              <title>{end ? `${s}: an end status. No step runs here; the run completes.` : `${s}: while a run is here, ${stepName(s)} runs`}</title>
+              <rect x={b.x - b.w / 2} y={b.top} width={b.w} height={H} rx={10} />
+              {end && <rect className="inner" x={b.x - b.w / 2 + 4} y={b.top + 4} width={b.w - 8} height={H - 8} rx={7} />}
+              <text className="name" x={b.x} y={b.top + 22} textAnchor="middle">{s}</text>
+              <text className="does" x={b.x} y={b.top + 40} textAnchor="middle">{end ? "final · the run completes" : `runs: ${stepName(s)}`}</text>
+              {s === current && <text className="here" x={b.x + b.w / 2} y={b.top - 6} textAnchor="end">{ended ? "● this run ended here" : "● this run is here"}</text>}
+            </g>
+          );
+        })}
+      </svg>
+      <figcaption className="ops-path">{pathCaption(g)}</figcaption>
+    </figure>
+  );
+}
+
+function RunGraph({ record }) {
+  const state = useRunData(OPS.graph, record);
+  const [view, setView] = React.useState(() => { try { return localStorage.getItem("wf.graphView") || "states"; } catch { return "states"; } });
+  const pick = v => { setView(v); try { localStorage.setItem("wf.graphView", v); } catch {} };
+  if (!state.data) return <OpsStatus state={state} />;
+  const g = namedGraph(state.data);
+  return (
+    <div>
+      <div className="ops-view-toggle" role="group" aria-label="Graph view">
+        <button type="button" aria-pressed={view === "states"} onClick={() => pick("states")}>State machine</button>
+        <button type="button" aria-pressed={view === "flow"} onClick={() => pick("flow")}>Flowchart</button>
+      </div>
+      {view === "flow" ? <FlowchartView record={record} g={g} /> : <StateMachineView record={record} g={g} />}
+    </div>
+  );
+}
+
+const RUN_STATE_DOT = { Completed: ["done", "check"], Paused: ["paused", "pause"], Cancelled: ["failed", "close"], "Data Deleted": ["done", "delete_forever"], "Requested Data Deleted": ["paused", "delete"] };
+
+function RunTimeline({ record }) {
+  const state = useRunData(OPS.timeline, record);
+  if (!state.data) return <OpsStatus state={state} />;
+  const items = state.data.items;
+  if (items.length === 0) return <div style={{ color: "var(--md-on-surface-variant)", fontSize: 13 }}>No history for this run.</div>;
+  return (
+    <ol className="timeline" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+      {items.map((h, i) => {
+        const last = i === items.length - 1;
+        const [kind, icon] = RUN_STATE_DOT[h.run_state] || [last && h.run_state === "Running" ? "active" : "done", "arrow_downward"];
+        return (
+          <li className="timeline-item" key={h.version}>
+            <div className={`timeline-dot ${kind}`} aria-hidden="true"><Icon name={icon} style={{ fontSize: 16 }} /></div>
+            <div className="timeline-content">
+              <div className="label">{h.status}</div>
+              <div className="meta">v{h.version} · {h.run_state} · {opsTime(h.updated_at)}</div>
+              {h.events.map(e => (
+                <div className="note" key={e.id}>Event #{e.id} on {e.topic} published {opsTime(e.created_at)}</div>
+              ))}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function opsTime(d) {
+  return new Date(d).toLocaleString("en-GB", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", fractionalSecondDigits: 3 });
+}
+
+function fmtValue(v) { return v === undefined ? "—" : JSON.stringify(v, null, 2); }
+
+function StepDiff({ input, output }) {
+  const isObj = v => v !== null && typeof v === "object" && !Array.isArray(v);
+  const keys = isObj(input) || isObj(output)
+    ? [...new Set([...Object.keys(isObj(input) ? input : {}), ...Object.keys(isObj(output) ? output : {})])]
+    : [null];
+  const at = (v, k) => k === null ? v : (isObj(v) ? v[k] : undefined);
+  return (
+    <table className="ops-diff">
+      <colgroup><col style={{ width: "26%" }} /><col /><col /></colgroup>
+      <thead><tr><th scope="col">Field</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+      <tbody>
+        {keys.map(k => {
+          const before = input === null ? undefined : at(input, k), after = at(output, k);
+          const changed = input !== null && JSON.stringify(before) !== JSON.stringify(after);
+          return (
+            <tr key={String(k)} className={changed ? "changed" : ""}>
+              <td>{k ?? "(value)"}{changed && <> <span className="ops-tag changed">changed</span></>}</td>
+              <td>{fmtValue(before)}</td>
+              <td>{fmtValue(after)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+// Each version's object is shown against the one before it.
+function RunSteps({ record }) {
+  const state = useRunData(OPS.steps, record);
+  if (!state.data) return <OpsStatus state={state} />;
+  const items = state.data.items;
+  return items.map((s, i) => (
+    <section className="ops-step" key={s.version} aria-label={`Version ${s.version}, ${s.status}`}>
+      <h3>v{s.version} {s.status} <span className="meta">{s.run_state} · {opsTime(s.updated_at)}{i === 0 ? " · first version, no input" : ""}</span></h3>
+      <StepDiff input={i === 0 ? null : items[i - 1].object} output={s.object} />
+    </section>
+  ));
+}
+
 /* ---- Drawer ---- */
 const STATE_TIMELINE = {
   Running:  [
@@ -1283,16 +1681,19 @@ function Drawer({ record, onClose, onAction, tab, setTab, fetchObjectData }) {
 
         <div style={{ padding: "16px 0 0" }}>
           <div className="drawer-tabs">
-            {["timeline", "object", "trace"].map(t => (
+            {["timeline", ...(OPS.graph ? ["graph"] : []), ...(OPS.steps ? ["steps"] : []), "object", "trace"].map(t => (
               <button key={t} className={`drawer-tab ${tab === t ? "active" : ""}`} onClick={() => setTab(t)}>
-                {t === "timeline" ? "Timeline" : t === "object" ? "Object Data" : "Stack Trace"}
+                {{ timeline: "Timeline", graph: "Graph", steps: "Steps", object: "Object Data", trace: "Stack Trace" }[t]}
               </button>
             ))}
           </div>
         </div>
 
         <div className="drawer-body">
-          {tab === "timeline" && (
+          {tab === "timeline" && OPS.timeline && <div className="drawer-section"><RunTimeline key={record.run_id} record={record} /></div>}
+          {tab === "graph" && OPS.graph && <div className="drawer-section"><RunGraph key={record.run_id} record={record} /></div>}
+          {tab === "steps" && OPS.steps && <div className="drawer-section"><RunSteps key={record.run_id} record={record} /></div>}
+          {tab === "timeline" && !OPS.timeline && (
             <div className="drawer-section">
               <div className="timeline">
                 {steps.map((s, i) => (
@@ -1374,6 +1775,7 @@ Object.assign(window, {
   Icon, StatePill, Sidebar, Topbar, KPIHero, RingChart,
   FilterBar, RecordsTable, Drawer, ToastRail, BulkBar,
   STATE_TIMELINE, formatTriggerTimestamp, relativeTime, formatDuration, stateClass,
+  RunGraph, RunTimeline, RunSteps,
 });
 </script>
 
@@ -1565,6 +1967,7 @@ function DocsView() {
         <li>Save and recall filter presets (stored in localStorage)</li>
         <li>Pause, resume, cancel, or delete run data</li>
         <li>Inspect the raw <Code>record.Object</Code> payload and trace origin</li>
+        <li>Optionally, see a run on its workflow's graph and step through every saved version of it</li>
         <li>Live polling with configurable interval</li>
       </ul>
       <DocH2>What it doesn't do</DocH2>
@@ -1628,6 +2031,8 @@ function DocsView() {
       <DocH2>POST /update</DocH2>
       <DocP>Issues an action against a run.</DocP>
       <Pre>{`{ "run_id": "7a3f1e...", "action": "pause | resume | cancel | delete" }`}</Pre>
+      <DocH2>Optional: POST /graph, /steps, /timeline</DocH2>
+      <DocP>Each takes <Code>{`{ "run_id": "..." }`}</Code> and adds a tab to the run drawer when its path is set in <Code>Paths</Code>. <Code>GraphHandlerFunc</Code> returns the workflow's status graph and the statuses the run has been in. <Code>StepsHandlerFunc</Code> and <Code>TimelineHandlerFunc</Code> return every saved version of the run and need a <Code>RecordStore</Code> that implements <Code>workflow.RecordHistory</Code>.</DocP>
     </>,
     shortcuts: () => {
       const shortcuts = [

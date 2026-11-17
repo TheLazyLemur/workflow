@@ -36,6 +36,9 @@ func main() {
 		List:       "/api/v1/list",
 		Update:     "/api/v1/record/update",
 		ObjectData: "/api/v1/record/objectdata",
+		Graph:      "/api/v1/record/graph",
+		Steps:      "/api/v1/record/steps",
+		Timeline:   "/api/v1/record/timeline",
 	}
 	http.HandleFunc("/", webui.HomeHandlerFunc(paths))
 	http.HandleFunc(paths.List, webui.ListHandlerFunc(
@@ -43,6 +46,9 @@ func main() {
 	))
 	http.HandleFunc(paths.ObjectData, webui.ObjectDataHandlerFunc(recordStore))
 	http.HandleFunc(paths.Update, webui.UpdateHandlerFunc(recordStore))
+	http.HandleFunc(paths.Graph, webui.GraphHandlerFunc(recordStore, w))
+	http.HandleFunc(paths.Steps, webui.StepsHandlerFunc(recordStore))
+	http.HandleFunc(paths.Timeline, webui.TimelineHandlerFunc(recordStore, nil))
 
 	fmt.Println("Head on over to 'http://localhost:9492' to view!")
 

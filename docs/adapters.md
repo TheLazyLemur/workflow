@@ -118,7 +118,7 @@ type RecordHistory interface {
 }
 ```
 
-`ListHistory` returns every stored version of a run, oldest first. Once a run's data is deleted, earlier versions must not return the deleted data. `memrecordstore` implements it; test your own implementation with `adaptertest.RunRecordHistoryTest`.
+`ListHistory` returns every stored version of a run, oldest first. Once a run's data is deleted, earlier versions must not return the deleted data. The [WebUI](#webui-adapter) uses it to show how a run progressed. `memrecordstore` implements it; test your own implementation with `adaptertest.RunRecordHistoryTest`.
 
 ### RoleScheduler
 
@@ -462,6 +462,26 @@ http.Handle("/", webui.HomeHandlerFunc(webui.Paths{
 http.HandleFunc("/api/list", webui.ListHandlerFunc(recordStore))
 http.HandleFunc("/api/object", webui.ObjectDataHandlerFunc(recordStore))
 ```
+
+The run drawer can also show the run on its workflow's graph, the object at every saved version of the run, and a timeline of those versions. Each is opt-in: its tab only appears when its path is set.
+
+```go
+http.Handle("/", webui.HomeHandlerFunc(webui.Paths{
+    List:       "/api/list",
+    ObjectData: "/api/object",
+    Graph:      "/api/graph",
+    Steps:      "/api/steps",
+    Timeline:   "/api/timeline",
+}))
+// Pass every workflow whose runs should show a graph.
+http.HandleFunc("/api/graph", webui.GraphHandlerFunc(recordStore, wf))
+// Steps and Timeline need a RecordStore that implements workflow.RecordHistory.
+http.HandleFunc("/api/steps", webui.StepsHandlerFunc(recordStore))
+// The last argument is optional: a webui.ListRunEvents that lists the events published for a run.
+http.HandleFunc("/api/timeline", webui.TimelineHandlerFunc(recordStore, nil))
+```
+
+The graph highlights the statuses the run has been in when the RecordStore implements `workflow.RecordHistory`, and only its current status otherwise.
 
 ### Logging Adapter
 
